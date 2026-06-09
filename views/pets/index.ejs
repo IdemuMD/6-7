@@ -1,0 +1,59 @@
+<%- include("../partials/header", { title }) %>
+
+<section class="page-heading">
+  <div>
+    <h2>Pets</h2>
+    <p>Registered pets with their owner and veterinarian.</p>
+  </div>
+  <a class="button" href="/pets/create">Add pet</a>
+</section>
+
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<!--
+  Exam data flow:
+  Browser -> Express route (/pets) -> petController.index -> MongoDB with
+  Mongoose -> populate eierId and veterinaerId -> render this EJS file ->
+  finished HTML is returned to the browser.
+-->
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Species</th>
+      <th>Breed</th>
+      <th>Age</th>
+      <th>Owner</th>
+      <th>Veterinarian</th>
+      <th class="actions">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (pets.length === 0) { %>
+      <tr>
+        <td colspan="7" class="empty">No pets have been registered yet.</td>
+      </tr>
+    <% } %>
+
+    <% pets.forEach((pet) => { %>
+      <tr>
+        <td><%= pet.navn %></td>
+        <td><%= pet.art %></td>
+        <td><%= pet.rase %></td>
+        <td><%= pet.alder %></td>
+        <td><%= pet.eierId ? pet.eierId.navn : "Missing owner" %></td>
+        <td><%= pet.veterinaerId ? pet.veterinaerId.navn : "Missing veterinarian" %></td>
+        <td class="actions">
+          <a class="small-button" href="/pets/<%= pet._id %>/edit">Edit</a>
+          <form action="/pets/<%= pet._id %>/delete" method="POST">
+            <button class="danger-button" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include("../partials/footer") %>

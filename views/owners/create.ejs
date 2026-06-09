@@ -1,0 +1,34 @@
+<%- include("../partials/header", { title }) %>
+
+<section class="page-heading">
+  <div>
+    <h2>Add Owner</h2>
+    <p>Add a new owner to the register.</p>
+  </div>
+  <a class="button secondary" href="/owners">Back</a>
+</section>
+
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<form class="form" action="/owners/create" method="POST">
+  <label>
+    Name
+    <input type="text" name="navn" value="<%= owner.navn || "" %>" required>
+  </label>
+
+  <label>
+    Phone
+    <input type="text" name="telefon" value="<%= owner.telefon || "" %>" required>
+  </label>
+
+  <label>
+    Address
+    <input type="text" name="adresse" value="<%= owner.adresse || "" %>" required>
+  </label>
+
+  <button class="button" type="submit">Save owner</button>
+</form>
+
+<%- include("../partials/footer") %>

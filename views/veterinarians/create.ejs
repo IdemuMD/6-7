@@ -1,0 +1,34 @@
+<%- include("../partials/header", { title }) %>
+
+<section class="page-heading">
+  <div>
+    <h2>Add Veterinarian</h2>
+    <p>Add a veterinarian to the register.</p>
+  </div>
+  <a class="button secondary" href="/veterinarians">Back</a>
+</section>
+
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<form class="form" action="/veterinarians/create" method="POST">
+  <label>
+    Name
+    <input type="text" name="navn" value="<%= veterinarian.navn || "" %>" required>
+  </label>
+
+  <label>
+    Specialization
+    <input type="text" name="spesialisering" value="<%= veterinarian.spesialisering || "" %>" required>
+  </label>
+
+  <label>
+    Phone
+    <input type="text" name="telefon" value="<%= veterinarian.telefon || "" %>" required>
+  </label>
+
+  <button class="button" type="submit">Save veterinarian</button>
+</form>
+
+<%- include("../partials/footer") %>

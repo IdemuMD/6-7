@@ -1,0 +1,47 @@
+<%- include("../partials/header", { title }) %>
+
+<section class="page-heading">
+  <div>
+    <h2>Veterinarians</h2>
+    <p>Registered veterinarians and specializations.</p>
+  </div>
+  <a class="button" href="/veterinarians/create">Add veterinarian</a>
+</section>
+
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Specialization</th>
+      <th>Phone</th>
+      <th class="actions">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (veterinarians.length === 0) { %>
+      <tr>
+        <td colspan="4" class="empty">No veterinarians have been registered yet.</td>
+      </tr>
+    <% } %>
+
+    <% veterinarians.forEach((veterinarian) => { %>
+      <tr>
+        <td><%= veterinarian.navn %></td>
+        <td><%= veterinarian.spesialisering %></td>
+        <td><%= veterinarian.telefon %></td>
+        <td class="actions">
+          <a class="small-button" href="/veterinarians/<%= veterinarian._id %>/edit">Edit</a>
+          <form action="/veterinarians/<%= veterinarian._id %>/delete" method="POST">
+            <button class="danger-button" type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include("../partials/footer") %>

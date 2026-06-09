@@ -1,0 +1,63 @@
+<%- include("../partials/header", { title }) %>
+
+<section class="page-heading">
+  <div>
+    <h2>Add Pet</h2>
+    <p>Register a new pet in the clinic overview.</p>
+  </div>
+  <a class="button secondary" href="/pets">Back</a>
+</section>
+
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<form class="form" action="/pets/create" method="POST">
+  <label>
+    Name
+    <input type="text" name="navn" value="<%= pet.navn || "" %>" required>
+  </label>
+
+  <label>
+    Species
+    <input type="text" name="art" value="<%= pet.art || "" %>" required>
+  </label>
+
+  <label>
+    Breed
+    <input type="text" name="rase" value="<%= pet.rase || "" %>" required>
+  </label>
+
+  <label>
+    Age
+    <input type="number" name="alder" value="<%= pet.alder || "" %>" min="0" required>
+  </label>
+
+  <label>
+    Owner
+    <select name="eierId" required>
+      <option value="">Choose owner</option>
+      <% owners.forEach((owner) => { %>
+        <option value="<%= owner._id %>" <%= String(owner._id) === String(pet.eierId || "") ? "selected" : "" %>>
+          <%= owner.navn %>
+        </option>
+      <% }) %>
+    </select>
+  </label>
+
+  <label>
+    Veterinarian
+    <select name="veterinaerId" required>
+      <option value="">Choose veterinarian</option>
+      <% veterinarians.forEach((veterinarian) => { %>
+        <option value="<%= veterinarian._id %>" <%= String(veterinarian._id) === String(pet.veterinaerId || "") ? "selected" : "" %>>
+          <%= veterinarian.navn %>
+        </option>
+      <% }) %>
+    </select>
+  </label>
+
+  <button class="button" type="submit">Save pet</button>
+</form>
+
+<%- include("../partials/footer") %>
