@@ -20,9 +20,9 @@ http://localhost:3000
 Før nettsiden startes må `.env` ligge i prosjektmappen:
 
 ```env
-MONGO_URI=mongodb://10.12.2.144:27017/6-7?directConnection=true
-PORT=3000
-SESSION_SECRET=6-7-pets-local-secret
+MONGO_URI=mongodb://IPadress:PORT/
+PORT=PORT
+SESSION_SECRET=
 ```
 
 ## Brukertyper
