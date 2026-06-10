@@ -16,6 +16,19 @@
       <a href="/pets">Pets</a>
       <a href="/owners">Owners</a>
       <a href="/veterinarians">Veterinarians</a>
+      <% if (typeof currentUser !== "undefined" && currentUser) { %>
+        <% if (currentUser.role === "owner") { %>
+          <a href="/min-side/eier">Min side</a>
+        <% } else { %>
+          <a href="/min-side/veterinaer">Min side</a>
+        <% } %>
+        <form class="nav-form" action="/auth/logout" method="POST">
+          <button class="nav-button" type="submit">Logg ut</button>
+        </form>
+      <% } else { %>
+        <a href="/auth/login">Logg inn</a>
+        <a href="/auth/register">Ny bruker</a>
+      <% } %>
     </nav>
   </header>
 

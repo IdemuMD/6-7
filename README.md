@@ -11,8 +11,15 @@ MVC-style Express application for a Vg2 IT exam project.
 
 ## Run
 
-1. Copy `.env.example` to `.env`.
-2. Set `MONGO_URI` to the existing MongoDB database, for example `mongodb://10.12.2.144:27017/6-7`.
+1. Make sure `.env` exists in the project folder.
+2. The `.env` file should contain:
+
+```env
+MONGO_URI=mongodb://10.12.2.144:27017/6-7?directConnection=true
+PORT=3000
+SESSION_SECRET=6-7-pets-local-secret
+```
+
 3. Run:
 
 ```bash

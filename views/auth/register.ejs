@@ -1,0 +1,74 @@
+<%- include("../partials/header", { title }) %>
+
+<section class="page-heading">
+  <div>
+    <h2>Ny bruker</h2>
+    <p>Opprett bruker som eier eller veterinær.</p>
+  </div>
+  <a class="button secondary" href="/auth/login?role=<%= role %>">Logg inn</a>
+</section>
+
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<form class="form" action="/auth/register" method="POST">
+  <label>
+    Brukertype
+    <select name="role" id="roleSelect" required>
+      <option value="owner" <%= role === "owner" ? "selected" : "" %>>Eier</option>
+      <option value="veterinarian" <%= role === "veterinarian" ? "selected" : "" %>>Veterinær</option>
+    </select>
+  </label>
+
+  <label>
+    Navn
+    <input type="text" name="navn" value="<%= form.navn || "" %>" required>
+  </label>
+
+  <label>
+    E-post
+    <input type="email" name="epost" value="<%= form.epost || "" %>" required>
+  </label>
+
+  <label>
+    Passord
+    <input type="password" name="passord" required>
+  </label>
+
+  <label>
+    Telefon
+    <input type="text" name="telefon" value="<%= form.telefon || "" %>" required>
+  </label>
+
+  <label class="owner-field">
+    Adresse
+    <input type="text" name="adresse" value="<%= form.adresse || "" %>">
+  </label>
+
+  <label class="veterinarian-field">
+    Spesialisering
+    <input type="text" name="spesialisering" value="<%= form.spesialisering || "" %>">
+  </label>
+
+  <button class="button" type="submit">Opprett bruker</button>
+</form>
+
+<script>
+  const roleSelect = document.getElementById("roleSelect");
+  const ownerField = document.querySelector(".owner-field");
+  const veterinarianField = document.querySelector(".veterinarian-field");
+
+  function updateRoleFields() {
+    const isOwner = roleSelect.value === "owner";
+    ownerField.hidden = !isOwner;
+    veterinarianField.hidden = isOwner;
+    ownerField.querySelector("input").required = isOwner;
+    veterinarianField.querySelector("input").required = !isOwner;
+  }
+
+  roleSelect.addEventListener("change", updateRoleFields);
+  updateRoleFields();
+</script>
+
+<%- include("../partials/footer") %>

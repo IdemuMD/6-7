@@ -1,0 +1,37 @@
+<%- include("../partials/header", { title }) %>
+
+<section class="page-heading">
+  <div>
+    <h2>Logg inn</h2>
+    <p>Velg brukertype og logg inn med e-post og passord.</p>
+  </div>
+  <a class="button secondary" href="/auth/register?role=<%= role %>">Ny bruker</a>
+</section>
+
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<form class="form" action="/auth/login" method="POST">
+  <label>
+    Brukertype
+    <select name="role" required>
+      <option value="owner" <%= role === "owner" ? "selected" : "" %>>Eier</option>
+      <option value="veterinarian" <%= role === "veterinarian" ? "selected" : "" %>>Veterinær</option>
+    </select>
+  </label>
+
+  <label>
+    E-post
+    <input type="email" name="epost" value="<%= form.epost || "" %>" required>
+  </label>
+
+  <label>
+    Passord
+    <input type="password" name="passord" required>
+  </label>
+
+  <button class="button" type="submit">Logg inn</button>
+</form>
+
+<%- include("../partials/footer") %>

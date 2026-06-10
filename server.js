@@ -1,8 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const session = require("express-session");
 require("dotenv").config();
 
+const authRoutes = require("./routes/authRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 const ownerRoutes = require("./routes/ownerRoutes");
 const veterinarianRoutes = require("./routes/veterinarianRoutes");
 const petRoutes = require("./routes/petRoutes");
@@ -16,13 +19,39 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "6-7-pets-dev-secret",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 2
+    }
+  })
+);
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.user || null;
+  next();
+});
+
+app.use("/auth", authRoutes);
+app.use("/min-side", dashboardRoutes);
 app.use("/owners", ownerRoutes);
 app.use("/veterinarians", veterinarianRoutes);
 app.use("/pets", petRoutes);
 
 app.get("/", (req, res) => {
+  if (req.session.user && req.session.user.role === "owner") {
+    return res.redirect("/min-side/eier");
+  }
+
+  if (req.session.user && req.session.user.role === "veterinarian") {
+    return res.redirect("/min-side/veterinaer");
+  }
+
   res.redirect("/pets");
 });
 

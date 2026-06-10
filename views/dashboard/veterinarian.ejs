@@ -1,0 +1,46 @@
+<%- include("../partials/header", { title }) %>
+
+<section class="page-heading">
+  <div>
+    <h2>Min side</h2>
+    <p>Kjæledyr som er tildelt deg.</p>
+  </div>
+  <a class="button secondary" href="/pets">Alle kjæledyr</a>
+</section>
+
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Kjæledyr</th>
+      <th>Art</th>
+      <th>Rase</th>
+      <th>Alder</th>
+      <th>Eier</th>
+      <th>Telefon</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (pets.length === 0) { %>
+      <tr>
+        <td colspan="6" class="empty">Ingen kjæledyr er tildelt deg ennå.</td>
+      </tr>
+    <% } %>
+
+    <% pets.forEach((pet) => { %>
+      <tr>
+        <td><%= pet.navn %></td>
+        <td><%= pet.art %></td>
+        <td><%= pet.rase %></td>
+        <td><%= pet.alder %></td>
+        <td><%= pet.eierId ? pet.eierId.navn : "Mangler eier" %></td>
+        <td><%= pet.eierId ? pet.eierId.telefon : "-" %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include("../partials/footer") %>

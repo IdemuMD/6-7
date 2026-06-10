@@ -16,6 +16,17 @@ const ownerSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true
+    },
+    epost: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      unique: true,
+      sparse: true
+    },
+    passordHash: {
+      type: String,
+      select: false
     }
   },
   {

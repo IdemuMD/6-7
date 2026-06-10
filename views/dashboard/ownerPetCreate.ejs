@@ -1,0 +1,51 @@
+<%- include("../partials/header", { title }) %>
+
+<section class="page-heading">
+  <div>
+    <h2>Legg til kjæledyr</h2>
+    <p>Kjæledyret blir koblet til din eierbruker.</p>
+  </div>
+  <a class="button secondary" href="/min-side/eier">Tilbake</a>
+</section>
+
+<% if (error) { %>
+  <p class="error"><%= error %></p>
+<% } %>
+
+<form class="form" action="/min-side/eier/kjaeledyr/ny" method="POST">
+  <label>
+    Navn
+    <input type="text" name="navn" value="<%= pet.navn || "" %>" required>
+  </label>
+
+  <label>
+    Art
+    <input type="text" name="art" value="<%= pet.art || "" %>" required>
+  </label>
+
+  <label>
+    Rase
+    <input type="text" name="rase" value="<%= pet.rase || "" %>" required>
+  </label>
+
+  <label>
+    Alder
+    <input type="number" name="alder" value="<%= pet.alder || "" %>" min="0" required>
+  </label>
+
+  <label>
+    Veterinær
+    <select name="veterinaerId" required>
+      <option value="">Velg veterinær</option>
+      <% veterinarians.forEach((veterinarian) => { %>
+        <option value="<%= veterinarian._id %>" <%= String(veterinarian._id) === String(pet.veterinaerId || "") ? "selected" : "" %>>
+          <%= veterinarian.navn %> - <%= veterinarian.spesialisering %>
+        </option>
+      <% }) %>
+    </select>
+  </label>
+
+  <button class="button" type="submit">Lagre kjæledyr</button>
+</form>
+
+<%- include("../partials/footer") %>
