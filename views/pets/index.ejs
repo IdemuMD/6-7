@@ -5,7 +5,15 @@
     <h2>Pets</h2>
     <p>Registered pets with their owner and veterinarian.</p>
   </div>
-  <a class="button" href="/pets/create">Add pet</a>
+  <% if (typeof currentUser !== "undefined" && currentUser) { %>
+    <% if (currentUser.role === "owner") { %>
+      <a class="button" href="/min-side/eier/kjaeledyr/ny">Add pet</a>
+    <% } else { %>
+      <a class="button" href="/pets/create">Add pet</a>
+    <% } %>
+  <% } else { %>
+    <a class="button" href="/auth/login">Logg inn for å legge til</a>
+  <% } %>
 </section>
 
 <% if (error) { %>
@@ -47,9 +55,11 @@
         <td><%= pet.veterinaerId ? pet.veterinaerId.navn : "Missing veterinarian" %></td>
         <td class="actions">
           <a class="small-button" href="/pets/<%= pet._id %>/edit">Edit</a>
-          <form action="/pets/<%= pet._id %>/delete" method="POST">
-            <button class="danger-button" type="submit">Delete</button>
-          </form>
+          <% if (typeof currentUser !== "undefined" && currentUser && currentUser.role === "veterinarian") { %>
+            <form action="/pets/<%= pet._id %>/delete" method="POST">
+              <button class="danger-button" type="submit">Delete</button>
+            </form>
+          <% } %>
         </td>
       </tr>
     <% }) %>

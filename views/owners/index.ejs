@@ -5,7 +5,7 @@
     <h2>Owners</h2>
     <p>Registered owners and contact information.</p>
   </div>
-  <a class="button" href="/owners/create">Add owner</a>
+  <a class="button" href="/auth/register?role=owner">Ny eierkonto</a>
 </section>
 
 <% if (error) { %>
@@ -35,9 +35,11 @@
         <td><%= owner.adresse %></td>
         <td class="actions">
           <a class="small-button" href="/owners/<%= owner._id %>/edit">Edit</a>
-          <form action="/owners/<%= owner._id %>/delete" method="POST">
-            <button class="danger-button" type="submit">Delete</button>
-          </form>
+          <% if (typeof currentUser !== "undefined" && currentUser && currentUser.role === "veterinarian") { %>
+            <form action="/owners/<%= owner._id %>/delete" method="POST">
+              <button class="danger-button" type="submit">Delete</button>
+            </form>
+          <% } %>
         </td>
       </tr>
     <% }) %>

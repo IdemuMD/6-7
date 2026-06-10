@@ -45,6 +45,10 @@ exports.index = async (req, res) => {
 
 exports.createForm = async (req, res) => {
   try {
+    if (req.session.user.role === "owner") {
+      return res.redirect("/min-side/eier/kjaeledyr/ny");
+    }
+
     const { owners, veterinarians } = await getFormLists();
     res.status(200).render("pets/create", {
       title: "Add pet",
@@ -60,6 +64,10 @@ exports.createForm = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
+    if (req.session.user.role === "owner") {
+      return res.redirect("/min-side/eier/kjaeledyr/ny");
+    }
+
     await Pet.create(req.body);
     res.redirect("/pets");
   } catch (error) {
